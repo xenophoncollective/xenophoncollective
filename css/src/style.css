@@ -1,0 +1,24 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #aaa; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#aaa, #000); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#aaa, #000); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#aaa, #000); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#aaa, #000); /* Standard syntax */ 
+  background-attachment: fixed;
+  height: 100%;
+}
+
+h1 {
+  padding: 20px;
+}
+
+svg{
+  top: 0;
+  margin: 0;
+  position:fixed;
+  padding:0;
+  background: transparent;
+}
