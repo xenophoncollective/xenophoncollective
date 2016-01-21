@@ -29,11 +29,9 @@
   app.init = function(state){
     app.v.clearPage();
     app.v.createScene();
-    // app.v.createSky();
     app.v.createBrain();
     app.v.createTitle();
-    // app.v.createClouds();
-    // app.v.createHills();
+    app.v.createExposition();
   };
 
   app.v = {};
@@ -81,6 +79,33 @@
     };
 
     setTimeout(titleTicker, 0);
+  };
+
+  app.v.createExposition = function(){
+    var words = [
+      "technology is biology by other means",
+      "inquire@xenophoncollective.com"
+    ];
+
+    var body = d3.select("body");
+
+    body.selectAll("p").remove();
+    body.selectAll("p")
+      .data(words)
+      .enter()
+      .append("p")
+      .style("color", "#fff")
+      .style("padding", "20px")
+      .style("position", "absolute")
+      .style("top", function(d, i){return 70 + i * 50 + "px"})
+      .style("opacity", 0)
+      .text(function(d){return d;})
+      .transition()
+      .duration(1000)
+      .delay(function(d, i){return 1000 + i * 900;})
+      .style("top", function(d, i){ return 50 + i * 50 + "px";})
+      .style("opacity", 1);
+
   };
 
   app.v.createSky = function(){
