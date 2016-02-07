@@ -16,10 +16,11 @@ h1 {
   padding: 20px;
 }
 
-svg{
+svg {
   top: 0;
   margin: 0;
   position:fixed;
   padding:0;
   background: transparent;
 }
+

@@ -25,6 +25,8 @@
   window.Node = Node;
 
   var app = {};
+  
+  app.authLock = null;
 
   app.init = function(state){
     app.v.clearPage();
@@ -32,9 +34,15 @@
     app.v.createBrain();
     app.v.createTitle();
     app.v.createExposition();
+    app.v.initListeners();
   };
 
   app.v = {};
+
+  app.v.initListeners = function(){
+    if (app.authLock) return;
+    app.authLock = new Auth0Lock('GJQkDrGVkfxX8uxONwwKnRVmNKiRJrO5', 'lukedavis.auth0.com');
+  };
 
   app.v.clearPage = function(){
     d3.select("svg").remove(); 
@@ -45,7 +53,6 @@
     d3.select("body").append("svg")
       .style("width", function(d) { return window.innerWidth; })
       .style("height", function(d) {return window.innerHeight; })
-      //.style("z-index", function(d) { return -1;})
       .style("position", "absolute");
   };
 
@@ -66,7 +73,7 @@
         i = 95;
         experimentalCharacter = "";
       } else {
-        experimentalCharacter = String.fromCharCode(i);
+        experimentalCharacter = String.fromCharCode(90 + Math.round(Math.random() * 50));
       }
 
 
@@ -83,8 +90,8 @@
 
   app.v.createExposition = function(){
     var words = [
-      "technology is biology by other means",
-      "inquire@xenophoncollective.com"
+      {text: "technology is biology by other means", classNames: []},
+      {text: "inquire@xenophoncollective.com", classNames: []}
     ];
 
     var body = d3.select("body");
@@ -99,7 +106,10 @@
       .style("position", "absolute")
       .style("top", function(d, i){return 70 + i * 50 + "px"})
       .style("opacity", 0)
-      .text(function(d){return d;})
+      .on('click', function(){
+        app.authLock.show({authParams: {scope: 'openid'}});
+      })
+      .text(function(d){return d.text;})
       .transition()
       .duration(1000)
       .delay(function(d, i){return 1000 + i * 900;})
