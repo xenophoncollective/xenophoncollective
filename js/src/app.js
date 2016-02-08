@@ -34,13 +34,14 @@
     app.v.createBrain();
     app.v.createTitle();
     app.v.createExposition();
-    app.v.initListeners();
+    app.initAuthLock();
+    app.checkForHashAuthToken();
   };
 
   app.v = {};
 
-  app.v.initListeners = function(){
-    var hash = lock.parseHash(window.location.hash);
+  app.checkForHashAuthToken = function(){
+    var hash = app.authLock.parseHash(window.location.hash);
     if (hash) {
       if (hash.error) {
         console.log("There was an error logging in", hash.error);
@@ -50,7 +51,9 @@
         localStorage.setItem('id_token', hash.id_token);
       }
     }
+  };
 
+  app.initAuthLock = function (){
     if (app.authLock) return;
     app.authLock = new Auth0Lock('GJQkDrGVkfxX8uxONwwKnRVmNKiRJrO5', 'lukedavis.auth0.com');
   };
