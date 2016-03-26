@@ -32,7 +32,6 @@
     app.v.clearPage();
     app.v.createScene();
     app.v.createBrain();
-    app.v.createTitle();
     app.v.createExposition();
     app.initAuthLock();
     app.checkForHashAuthToken();
@@ -59,8 +58,7 @@
   };
 
   app.v.clearPage = function(){
-    d3.select("svg").remove(); 
-    d3.select("h1").remove();
+    document.body.innerHTML = '';
   };
 
   app.v.createScene = function(){
@@ -70,66 +68,33 @@
       .style("position", "absolute");
   };
 
-  app.v.createTitle = function() {
-    var title = "Xenophon Collective";
-    var tempTitle = "";
-    var i = 100;
-
-    var titleTicker = function(){
-      if (i > 1000 || tempTitle === title) {
-        return;
-      }
-
-      var experimentalCharacter;
-
-      if (i > 110) {
-        tempTitle = tempTitle + title[tempTitle.length || 0];
-        i = 95;
-        experimentalCharacter = "";
-      } else {
-        experimentalCharacter = String.fromCharCode(90 + Math.round(Math.random() * 50));
-      }
-
-
-      i++;
-      d3.select("h1").remove();
-      d3.select("body").append("h1")
-        .style("color", "#fff")
-        .text(tempTitle + experimentalCharacter);
-      setTimeout(titleTicker, 10);
-    };
-
-    setTimeout(titleTicker, 0);
-  };
-
   app.v.createExposition = function(){
-    var words = [
-      {text: "technology is biology by other means", classNames: []},
-      {text: "inquire@xenophoncollective.com", classNames: []}
-    ];
+    var effect = {effect: 'fadeInUp', shuffle: true};
+    
+    var title = document.createElement('h1');
+    title.textContent = "Xenophon Collective";
 
-    var body = d3.select("body");
+    var subtext = document.createElement('p');
+    subtext.textContent = 'technology is biology by other means';
 
-    body.selectAll("p").remove();
-    body.selectAll("p")
-      .data(words)
-      .enter()
-      .append("p")
-      .style("color", "#fff")
-      .style("padding", "20px")
-      .style("position", "absolute")
-      .style("top", function(d, i){return 70 + i * 50 + "px"})
-      .style("opacity", 0)
-      .on('click', function(){
-        app.authLock.show({authParams: {scope: 'openid'}});
-      })
-      .text(function(d){return d.text;})
-      .transition()
-      .duration(1000)
-      .delay(function(d, i){return 1000 + i * 900;})
-      .style("top", function(d, i){ return 50 + i * 50 + "px";})
-      .style("opacity", 1);
+    var email = document.createElement('p');
+    email.textContent = 'inquire@xenophoncollective.com';
 
+    document.body.appendChild(title);
+    document.body.appendChild(subtext);
+    document.body.appendChild(email);
+
+    $(title).textillate({
+      in: effect
+    });
+
+    $(subtext).textillate({
+      in: effect
+    });
+
+    $(email).textillate({
+      in: effect
+    });
   };
 
   app.v.createSky = function(){
